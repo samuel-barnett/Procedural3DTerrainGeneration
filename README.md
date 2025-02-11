@@ -1,5 +1,7 @@
 # Assignment: Solo Centerpiece Project Proposal
 
+## This project was made from this OpenGL + imgui cmake template by dcronqvist: https://github.com/dcronqvist/opengl-imgui-cmake-template
+
 ## Samuel Barnett | Procedural 3D Terrain Generation
 
 ### 1. **Project Objectives**
