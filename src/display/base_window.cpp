@@ -1,6 +1,8 @@
 #include "display/base_window.hpp"
 #include <iostream>
 
+#include "terrain_gen/perlin_to_geometry.hpp"
+
 BaseWindow::BaseWindow() {
 
 }
@@ -42,6 +44,7 @@ int BaseWindow::Run() {
     // Main game loop
     while (!glfwWindowShouldClose(windowHandle)) {
         Update();
+        
         Render();
     }
 
