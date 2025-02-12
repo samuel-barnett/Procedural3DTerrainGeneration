@@ -99,10 +99,20 @@ void GameWindow::Render() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     // Draw the square
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    meshData.Draw();
 
     // Draw imgui
-    ImGui::ShowDemoWindow();
+    //ImGui::ShowDemoWindow();
+    {
+        ImGui::Begin("Hi");
+        ImGui::Text("Noise Generation Variables");
+        ImGui::InputInt("Seed", &intern, 1, 10);
+        ImGui::InputInt("Width", &intern, 1, 10);
+        ImGui::InputInt("Height", &intern, 1, 10);
+
+        ImGui::End();
+    }
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

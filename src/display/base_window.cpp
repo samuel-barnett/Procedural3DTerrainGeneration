@@ -41,10 +41,30 @@ int BaseWindow::Run() {
     // Runs load content which might include stuff that requires an opengl context
     LoadContent();
 
+
+    // setup camera
+    cam.position = glm::vec3(0.0f, 0.0f, 3.0f);
+    cam.lookAt = glm::vec3(0.0f, 0.0f, 0.0f);
+    cam.aspectRatio = (float)this->windowWidth / this->windowHeight;
+    cam.FOV = 60.0f;
+
+    camController.flySpeed = 10;
+
+
     // Main game loop
     while (!glfwWindowShouldClose(windowHandle)) {
         Update();
         
+        float time = (float)glfwGetTime();
+        deltaTime = time - prevFrameTime;
+        prevFrameTime = time;
+
+        // move camera
+        camController.moveCamera(windowHandle, deltaTime, &cam);
+
+
+
+
         Render();
     }
 
