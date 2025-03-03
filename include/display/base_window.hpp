@@ -29,8 +29,8 @@ class BaseWindow {
     Camera cam;
     CameraController camController;
 
-    Mesh meshData;
-
+    Mesh terrainMesh;
+    Transform terrainTrans;
 
     public:
     BaseWindow();

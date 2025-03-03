@@ -1,6 +1,8 @@
 #include "display/game_window.hpp"
 #include "shaders/shader.hpp"
 #include <iostream>
+#include <glm.hpp>
+#include <gtc/type_ptr.inl>
 
 // Template stuff
 Shader s;
@@ -98,24 +100,32 @@ void GameWindow::Render() {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    // set camera view in shader
+    glUniformMatrix4fv(glGetUniformLocation(s.programID, "_ViewProjection"), 1, GL_FALSE, glm::value_ptr(cam.projectionMatrix() * cam.viewMatrix()));
+    glUniformMatrix4fv(glGetUniformLocation(s.programID, "_Model"), 1, GL_FALSE, glm::value_ptr(terrainTrans.getModelMatrix()));
+
+
     // Draw the square
     //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    meshData.Draw();
+
+
+    terrainMesh.Draw();
 
     // Draw imgui
     //ImGui::ShowDemoWindow();
     {
-        ImGui::Begin("Hi");
-        ImGui::Text("Noise Generation Variables");
-        ImGui::InputInt("Seed", &intern, 1, 10);
-        ImGui::InputInt("Width", &intern, 1, 10);
-        ImGui::InputInt("Height", &intern, 1, 10);
+        //ImGui::Begin("Hi");
+        //ImGui::Text("Noise Generation Variables");
+        //ImGui::InputInt("Seed", &intern, 1, 10);
+        //ImGui::InputInt("Width", &intern, 1, 10);
+        //ImGui::InputInt("Height", &intern, 1, 10);
 
-        ImGui::End();
+        //ImGui::End();
     }
     ImGui::Render();
+    
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+    
     // Swap double buffers and poll OS-events
     glfwSwapBuffers(this->windowHandle);
     glfwPollEvents();

@@ -10,7 +10,7 @@ public:
 	glm::vec3 position;
 	glm::vec3 lookAt;
 
-	float FOV;
+	float FOV = 90;
 	float near;
 	float far;
 	float aspectRatio;
