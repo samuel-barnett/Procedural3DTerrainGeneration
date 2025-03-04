@@ -101,6 +101,8 @@ void GameWindow::Render() {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
+
+
     // set camera view in shader
     // testin .vs and .fs
     glUniformMatrix4fv(glGetUniformLocation(s.programID, "viewProjection"), 1, GL_FALSE, glm::value_ptr(cam.projectionMatrix() * cam.viewMatrix()));

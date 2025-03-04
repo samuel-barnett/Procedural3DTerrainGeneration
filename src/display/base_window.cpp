@@ -51,12 +51,16 @@ int BaseWindow::Run() {
     camController.flySpeed = 15;
     camController.sensitivity = 0.05f;
 
-
-    terrainMesh = Mesh(1, 1, 4);
+    std::srand(std::time(0));
+    terrainMesh = Mesh(60, 60, 128);
 
     terrainTrans.position = glm::vec3(1.0f, 0.0f, 0.0f);
     terrainTrans.rotation = glm::vec3(0.0f, 90.0f, 0.0f);
     terrainTrans.scale = glm::vec3(1.0f, 1.0f, 1.0f);
+
+
+    // toggle for wireframe view
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // Main game loop
     while (!glfwWindowShouldClose(windowHandle)) {

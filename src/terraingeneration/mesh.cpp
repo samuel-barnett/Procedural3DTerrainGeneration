@@ -1,8 +1,12 @@
 #include "terrain_gen/mesh.hpp"
 #include "shaders/shader.hpp"
+#include "../libs/noise/FastNoiseLite.h"
 
 Mesh::Mesh(float width, float height, int subdivisions)
 {
+	int randSeed = std::rand() % (360 - 0 + 1);
+	FastNoiseLite noiseGenerator = FastNoiseLite(randSeed);
+
 	// verticies
 	int columns = subdivisions + 1;
 	for (size_t row = 0; row <= subdivisions; row++)
@@ -13,8 +17,8 @@ Mesh::Mesh(float width, float height, int subdivisions)
 			v.UV.x = ((float)col / subdivisions);
 			v.UV.y = ((float)row / subdivisions);
 			v.position.x = -width / 2 + width * v.UV.x;
-			v.position.z = 0;
-			v.position.y = height / 2 - height * v.UV.y;
+			v.position.y = noiseGenerator.GetNoise((float)row, (float)col) * 5;
+			v.position.z = height / 2 - height * v.UV.y;
 			v.normal = glm::vec3(0, 1, 0);
 			vertices.push_back(v);
 			//std::cout << v.position.x << " " << v.position.z << std::endl;
@@ -83,7 +87,7 @@ void Mesh::Draw()
 	
 	//std::cout << numVertices << std::endl;
 	glBindVertexArray(vao);
-	//glDrawArrays(GL_TRIANGLES, 0, numVertices);
+
 	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, NULL);
 
 
