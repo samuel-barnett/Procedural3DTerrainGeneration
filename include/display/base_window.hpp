@@ -19,8 +19,6 @@ class BaseWindow {
     std::string windowTitle;
     GLFWwindow* windowHandle;
 
-    int intern = 0;
-
     // deltaTime
     float deltaTime;
     float prevFrameTime;
@@ -31,6 +29,8 @@ class BaseWindow {
 
     Mesh terrainMesh;
     Transform terrainTrans;
+
+    NoiseData noiseData;
 
     public:
     BaseWindow();

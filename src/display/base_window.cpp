@@ -1,7 +1,7 @@
 #include "display/base_window.hpp"
 #include <iostream>
 
-#include "terrain_gen/perlin_to_geometry.hpp"
+#include "terrain_gen/perlin_generator.hpp"
 
 BaseWindow::BaseWindow() {
 
@@ -48,15 +48,18 @@ int BaseWindow::Run() {
     cam.aspectRatio = (float)this->windowWidth / this->windowHeight;
     cam.FOV = 60.0f;
 
-    camController.flySpeed = 15;
+    camController.flySpeed = 200;
     camController.sensitivity = 0.05f;
 
     std::srand(std::time(0));
-    terrainMesh = Mesh(60, 60, 128);
+    terrainMesh = Mesh(1000, 1000, 128, noiseData);
 
     terrainTrans.position = glm::vec3(1.0f, 0.0f, 0.0f);
     terrainTrans.rotation = glm::vec3(0.0f, 90.0f, 0.0f);
     terrainTrans.scale = glm::vec3(1.0f, 1.0f, 1.0f);
+
+
+    NoiseData noiseData;
 
 
     // toggle for wireframe view

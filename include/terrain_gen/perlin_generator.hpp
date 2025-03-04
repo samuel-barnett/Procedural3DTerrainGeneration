@@ -1,11 +1,11 @@
 #pragma once
 
-struct PerlinData
+struct NoiseData
 {
-	int seed;
-	int width, height;
-	float amplitude;
-	float frequency:
+	int seed = 0;
+	int width = 1000, height = 1000;
+	float amplitude = 1;
+	float frequency = 1;
 
 
 

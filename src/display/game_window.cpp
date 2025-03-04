@@ -124,13 +124,25 @@ void GameWindow::Render() {
     // Draw imgui
     //ImGui::ShowDemoWindow();
     {
-        //ImGui::Begin("Hi");
-        //ImGui::Text("Noise Generation Variables");
-        //ImGui::InputInt("Seed", &intern, 1, 10);
-        //ImGui::InputInt("Width", &intern, 1, 10);
-        //ImGui::InputInt("Height", &intern, 1, 10);
+        ImGui::Begin("Hi");
+        ImGui::Text("Noise Generation Variables");
+        ImGui::InputInt("Seed", &noiseData.seed, -2147483647, 2147483647);
+        ImGui::InputInt("Width", &noiseData.width, 1, 10000);
+        ImGui::InputInt("Height", &noiseData.height, 1, 10000);
+        // regenerate Mesh Button
+        if (ImGui::Button("Random Seed"))
+        {
+            noiseData.seed = std::rand() % (2147483647 - 0);
+        }
 
-        //ImGui::End();
+        if (ImGui::Button("Regenerate Mesh"))
+        {
+            terrainMesh.GenerateMesh(noiseData.width, noiseData.height, 512, noiseData);
+            std::cout << "Mesh Regenerated" << std::endl;
+        }
+       
+
+        ImGui::End();
     }
     ImGui::Render();
     

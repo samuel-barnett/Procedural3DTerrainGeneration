@@ -12,7 +12,7 @@ public:
 
 	float FOV = 60.0f;
 	float near = 0.01f;
-	float far = 100.0f;
+	float far = 2000.0f;
 	float aspectRatio = 1.77f;
 
 	// orthographic

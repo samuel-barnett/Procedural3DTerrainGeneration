@@ -2,10 +2,30 @@
 #include "shaders/shader.hpp"
 #include "../libs/noise/FastNoiseLite.h"
 
-Mesh::Mesh(float width, float height, int subdivisions)
+Mesh::Mesh(float width, float height, int subdivisions, NoiseData noiseData)
 {
-	int randSeed = std::rand() % (360 - 0 + 1);
-	FastNoiseLite noiseGenerator = FastNoiseLite(randSeed);
+	GenerateMesh(width, height, subdivisions, noiseData);
+}
+
+void Mesh::GenerateMesh(float width, float height, int subdivisions, NoiseData data)
+{
+	// cheating
+	width = 500;
+	height = 500;
+	subdivisions = 1024;
+	//
+
+	
+	vertices.clear();
+	indices.clear();
+
+	
+	FastNoiseLite noiseGenerator = FastNoiseLite(data.seed);
+	noiseGenerator.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+	//noiseGenerator.SetFrequency(0.01);
+	noiseGenerator.SetFractalOctaves(2);
+	noiseGenerator.SetFractalType(FastNoiseLite::FractalType_Ridged);
+	//noiseGenerator.SetDomainWarpAmp(8);
 
 	// verticies
 	int columns = subdivisions + 1;
@@ -17,7 +37,7 @@ Mesh::Mesh(float width, float height, int subdivisions)
 			v.UV.x = ((float)col / subdivisions);
 			v.UV.y = ((float)row / subdivisions);
 			v.position.x = -width / 2 + width * v.UV.x;
-			v.position.y = noiseGenerator.GetNoise((float)row, (float)col) * 5;
+			v.position.y = noiseGenerator.GetNoise((float)row, (float)col) * 2;
 			v.position.z = height / 2 - height * v.UV.y;
 			v.normal = glm::vec3(0, 1, 0);
 			vertices.push_back(v);
@@ -39,6 +59,11 @@ Mesh::Mesh(float width, float height, int subdivisions)
 		}
 	}
 
+	LoadMesh();
+}
+
+void Mesh::LoadMesh()
+{
 	if (!initialized) {
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
@@ -79,6 +104,9 @@ Mesh::Mesh(float width, float height, int subdivisions)
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+
+
 }
 
 void Mesh::Draw()

@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <glm.hpp>
+#include <terrain_gen/perlin_generator.hpp>
 
 struct Vertex
 {
@@ -25,7 +26,10 @@ public:
 	std::vector<unsigned int> indices;
 
 	Mesh() {};
-	Mesh(float width, float height, int subdivisions);
+	Mesh(float width, float height, int subdivisions, NoiseData noiseData);
+
+	void GenerateMesh(float width, float height, int subdivisions, NoiseData data);
+	void LoadMesh();
 
 	glm::mat4 GetModelMatrix();
 
