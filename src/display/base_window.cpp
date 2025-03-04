@@ -43,18 +43,20 @@ int BaseWindow::Run() {
 
 
     // setup camera
-    cam.position = glm::vec3(0.0f, 1.0f, -3.0f);
+    //cam.position = glm::vec3(0.0f, 1.0f, -3.0f);
     cam.lookAt = glm::vec3(0.0f, 0.0f, 0.0f);
     cam.aspectRatio = (float)this->windowWidth / this->windowHeight;
     cam.FOV = 60.0f;
 
-    camController.flySpeed = 10;
-    camController.sensitivity = 60;
+    camController.flySpeed = 15;
+    camController.sensitivity = 0.05f;
 
 
     terrainMesh = Mesh(1, 1, 4);
 
     terrainTrans.position = glm::vec3(1.0f, 0.0f, 0.0f);
+    terrainTrans.rotation = glm::vec3(0.0f, 90.0f, 0.0f);
+    terrainTrans.scale = glm::vec3(1.0f, 1.0f, 1.0f);
 
     // Main game loop
     while (!glfwWindowShouldClose(windowHandle)) {
@@ -66,7 +68,7 @@ int BaseWindow::Run() {
 
         // move camera
         camController.moveCamera(windowHandle, deltaTime, &cam);
-        std::cout << cam.lookAt.x << std::endl;
+        //std::cout << cam.position.x << std::endl;
 
 
 

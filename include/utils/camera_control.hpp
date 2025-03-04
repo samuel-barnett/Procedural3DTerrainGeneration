@@ -4,12 +4,12 @@
 class CameraController
 {
 public:
-	float flySpeed;
-	float sensitivity;
+	float flySpeed = 3.0f;
+	float sensitivity = 0.01f;
 
-	float yaw, pitch;
+	float yaw = 0.0f, pitch = 0.0f;
 
-	int prevMouseX, prevMouseY;
+	int prevMouseX = 0, prevMouseY = 0;
 
 	bool firstFrame = true;
 

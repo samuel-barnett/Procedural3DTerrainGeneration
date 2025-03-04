@@ -40,6 +40,7 @@ void GameWindow::LoadContent() {
 
     // Load the template shader
     s = Shader::LoadShader("resources/shaders/testing.vs", "resources/shaders/testing.fs");
+    //s = Shader::LoadShader("resources/shaders/lit.vert", "resources/shaders/lit.frag");
 
     // Vertices needed for a square
     float vertices[] = {
@@ -101,8 +102,15 @@ void GameWindow::Render() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     // set camera view in shader
-    glUniformMatrix4fv(glGetUniformLocation(s.programID, "_ViewProjection"), 1, GL_FALSE, glm::value_ptr(cam.projectionMatrix() * cam.viewMatrix()));
-    glUniformMatrix4fv(glGetUniformLocation(s.programID, "_Model"), 1, GL_FALSE, glm::value_ptr(terrainTrans.getModelMatrix()));
+    // testin .vs and .fs
+    glUniformMatrix4fv(glGetUniformLocation(s.programID, "viewProjection"), 1, GL_FALSE, glm::value_ptr(cam.projectionMatrix() * cam.viewMatrix()));
+    glUniformMatrix4fv(glGetUniformLocation(s.programID, "model"), 1, GL_FALSE, glm::value_ptr(terrainTrans.getModelMatrix()));
+
+    // imported shader
+    //glUniformMatrix4fv(glGetUniformLocation(s.programID, "_ViewProjection"), 1, GL_FALSE, glm::value_ptr(cam.projectionMatrix() * cam.viewMatrix()));
+    //glUniformMatrix4fv(glGetUniformLocation(s.programID, "_Model"), 1, GL_FALSE, glm::value_ptr(terrainTrans.getModelMatrix()));
+
+
 
 
     // Draw the square

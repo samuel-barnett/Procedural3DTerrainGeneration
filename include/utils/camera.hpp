@@ -7,13 +7,13 @@
 class Camera
 {
 public:
-	glm::vec3 position;
-	glm::vec3 lookAt;
+	glm::vec3 position = glm::vec3(0.0f, 0.0f, 5.0f);
+	glm::vec3 lookAt = glm::vec3(0.0f);
 
-	float FOV = 90;
-	float near;
-	float far;
-	float aspectRatio;
+	float FOV = 60.0f;
+	float near = 0.01f;
+	float far = 100.0f;
+	float aspectRatio = 1.77f;
 
 	// orthographic
 	bool orthographic = false;

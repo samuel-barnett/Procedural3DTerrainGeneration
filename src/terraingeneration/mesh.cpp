@@ -84,7 +84,7 @@ void Mesh::Draw()
 	//std::cout << numVertices << std::endl;
 	glBindVertexArray(vao);
 	//glDrawArrays(GL_TRIANGLES, 0, numVertices);
-	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, NULL);
 
 
 }
