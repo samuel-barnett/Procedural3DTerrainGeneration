@@ -148,6 +148,7 @@ void GameWindow::Render() {
         ImGui::SliderFloat("Amplitude", &noiseData.amplitude, 0, 10);
         ImGui::SliderFloat("Redistribution (WIP)", &noiseData.redistribution, 0, 10);
         ImGui::SliderFloat("Lowest Point", &noiseData.lowestPoint, -100, 100);
+        ImGui::SliderFloat("Highest Point", &noiseData.highestPoint, -100, 100);
         //ImGui::InputInt("Level Of Detail", &noiseData.levelOfDetail, 1, 10);
 
         
@@ -158,7 +159,10 @@ void GameWindow::Render() {
 
 
         // regenerate Mesh Button
-        
+        if (!noiseData.Compare(previousData))
+        {
+
+        }
 
         if (ImGui::Button("Regenerate Mesh"))
         {

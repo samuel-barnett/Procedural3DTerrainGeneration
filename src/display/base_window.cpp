@@ -70,6 +70,7 @@ int BaseWindow::Run() {
 
 
     NoiseData noiseData;
+    NoiseData previousData;
 
 
     // toggle for wireframe view

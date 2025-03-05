@@ -12,7 +12,7 @@ void Mesh::GenerateMesh(NoiseData data)
 	// cheating
 	//width = 100;
 	//height = 100;
-	//subdivisions = 1024;
+	//data.subdivisions = 1024;
 	//
 	//float waveLegnth = width / data.frequency;
 	
@@ -65,6 +65,10 @@ void Mesh::GenerateMesh(NoiseData data)
 			{
 				elevation = data.lowestPoint;
 			}
+			if (elevation > data.highestPoint)
+			{
+				elevation = data.highestPoint;
+			}
 			elevation += 10;
 			elevation = pow(elevation, data.redistribution);
 			elevation -= 10;
@@ -73,6 +77,7 @@ void Mesh::GenerateMesh(NoiseData data)
 			//std::cout << v.position.x << " " << v.position.z << std::endl;
 		}
 	}
+	std::cout << "# of vertexes: " << vertices.size() << std::endl;
 	//INDICES
 	for (size_t row = 0; row < data.subdivisions; row++)
 	{
