@@ -26,20 +26,32 @@ void Mesh::GenerateMesh(NoiseData data)
 	
 	noiseGenerator.SetFractalType(static_cast<FastNoiseLite::FractalType>(data.fractalType));
 	noiseGenerator.SetFractalOctaves(data.fractalOctaves);
-	noiseGenerator.SetRotationType3D(FastNoiseLite::RotationType3D_None);
+	//noiseGenerator.SetRotationType3D(FastNoiseLite::RotationType3D_None);
 	//noiseGenerator.SetDomainWarpAmp(8);
 
 	// verticies
 	int columns = data.subdivisions + 1;
 	for (size_t row = 0; row <= data.subdivisions; row++)
 	{
+		/*
+		if (!(row % data.levelOfDetail == 0))
+		{
+			continue;
+		}*/
+
 		for (size_t col = 0; col <= data.subdivisions; col++)
 		{
+			/*
+			if (!(col % data.levelOfDetail == 0))
+			{
+				continue;
+			}*/
+
 			Vertex v;
 			v.UV.x = ((float)col / data.subdivisions);
 			v.UV.y = ((float)row / data.subdivisions);
 			v.position.x = -data.width / 2 + data.width * v.UV.x;
-			v.position.z = data.height / 2 - data.height * v.UV.y;
+			v.position.z = data.width / 2 - data.width * v.UV.y;
 			v.normal = glm::vec3(0, 1, 0);
 
 			// height map setup
@@ -48,12 +60,15 @@ void Mesh::GenerateMesh(NoiseData data)
 				+ (0.25 * noiseGenerator.GetNoise(4 * (float)row * data.frequency, 4 * (float)col * data.frequency))) * data.amplitude;
 				;
 			elevation = elevation / (1 + 0.5 + 0.25);
-			elevation += 10;
+
 			if (elevation < data.lowestPoint)
 			{
 				elevation = data.lowestPoint;
 			}
-			v.position.y = pow(elevation, data.redistribution);
+			elevation += 10;
+			elevation = pow(elevation, data.redistribution);
+			elevation -= 10;
+			v.position.y = elevation;
 			vertices.push_back(v);
 			//std::cout << v.position.x << " " << v.position.z << std::endl;
 		}
@@ -63,7 +78,7 @@ void Mesh::GenerateMesh(NoiseData data)
 	{
 		for (size_t col = 0; col < data.subdivisions; col++)
 		{
-			int start = row * columns + col;
+			int start = row * columns+ col;
 			indices.push_back(start);
 			indices.push_back(start + 1);
 			indices.push_back(start + columns + 1);

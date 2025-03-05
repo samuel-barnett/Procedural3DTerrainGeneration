@@ -140,17 +140,18 @@ void GameWindow::Render() {
         ImGui::ListBox("Noise Type", &noiseData.noiseType, noiseTypes, IM_ARRAYSIZE(noiseTypes), 4);
 
         ImGui::SliderInt("Width", &noiseData.width, 1, 10000);
-        ImGui::SliderInt("Height", &noiseData.height, 1, 10000);
+        //ImGui::SliderInt("Height", &noiseData.height, 1, 10000);
         ImGui::SliderInt("Subdivisions", &noiseData.subdivisions, 1, 5000);
 
 
         ImGui::SliderFloat("Frequency", &noiseData.frequency, 0, 10);
         ImGui::SliderFloat("Amplitude", &noiseData.amplitude, 0, 10);
-        ImGui::SliderFloat("Redistribution", &noiseData.redistribution, 0, 10);
-        ImGui::SliderFloat("Lowest Point", &noiseData.lowestPoint, 0, 100);
+        ImGui::SliderFloat("Redistribution (WIP)", &noiseData.redistribution, 0, 10);
+        ImGui::SliderFloat("Lowest Point", &noiseData.lowestPoint, -100, 100);
+        //ImGui::InputInt("Level Of Detail", &noiseData.levelOfDetail, 1, 10);
 
         
-        const char* fractalTypes[] = { "None", "FBm", "Ridged", "PingPong", "DomainWarpProgressive", "DomainWarpIndependent" };
+        const char* fractalTypes[] = { "None", "FBm", "Ridged", "PingPong", "DomainWarpProgressive (WIP)", "DomainWarpIndependent (WIP)" };
         //static int currFractal = noiseData.noiseType;
         ImGui::ListBox("Fractal Type", &noiseData.fractalType, fractalTypes, IM_ARRAYSIZE(fractalTypes), 4);
         ImGui::SliderInt("Fractal Octaves", &noiseData.fractalOctaves, 0, 8);
