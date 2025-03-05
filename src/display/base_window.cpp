@@ -43,19 +43,29 @@ int BaseWindow::Run() {
 
 
     // setup camera
-    //cam.position = glm::vec3(0.0f, 1.0f, -3.0f);
+    cam.position = glm::vec3(0.0f, 30.0f, 0.0f);
     cam.lookAt = glm::vec3(0.0f, 0.0f, 0.0f);
     cam.aspectRatio = (float)this->windowWidth / this->windowHeight;
     cam.FOV = 60.0f;
 
-    camController.flySpeed = 200;
+    // camera controller
+    camController.flySpeed = 20;
     camController.sensitivity = 0.05f;
 
+    camController.forwardKey = GLFW_KEY_W;
+    camController.leftKey = GLFW_KEY_A;
+    camController.backwardKey = GLFW_KEY_S;
+    camController.rightKey = GLFW_KEY_D;
+    camController.upKey = GLFW_KEY_SPACE;
+    camController.downKey = GLFW_KEY_LEFT_SHIFT;
+    camController.unlockCamKey = GLFW_KEY_E;
+
+
     std::srand(std::time(0));
-    terrainMesh = Mesh(1000, 1000, 128, noiseData);
+    terrainMesh = Mesh(noiseData);
 
     terrainTrans.position = glm::vec3(1.0f, 0.0f, 0.0f);
-    terrainTrans.rotation = glm::vec3(0.0f, 90.0f, 0.0f);
+    terrainTrans.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
     terrainTrans.scale = glm::vec3(1.0f, 1.0f, 1.0f);
 
 

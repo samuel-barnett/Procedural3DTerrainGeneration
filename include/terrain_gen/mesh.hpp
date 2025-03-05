@@ -26,9 +26,9 @@ public:
 	std::vector<unsigned int> indices;
 
 	Mesh() {};
-	Mesh(float width, float height, int subdivisions, NoiseData noiseData);
+	Mesh(NoiseData noiseData);
 
-	void GenerateMesh(float width, float height, int subdivisions, NoiseData data);
+	void GenerateMesh(NoiseData data);
 	void LoadMesh();
 
 	glm::mat4 GetModelMatrix();

@@ -13,11 +13,22 @@ public:
 
 	bool firstFrame = true;
 
+	// keybinds
+	int forwardKey = GLFW_KEY_W,
+		leftKey = GLFW_KEY_A,
+		backwardKey = GLFW_KEY_S,
+		rightKey = GLFW_KEY_D;
+	int upKey = GLFW_KEY_SPACE,
+		downKey = GLFW_KEY_LEFT_SHIFT;
+	int unlockCamKey = GLFW_KEY_E;
+
+
 	void moveCamera(GLFWwindow* screen, float deltaTime, Camera* cam)
 	{
 		//std::cout << cam->lookAt.x << " " << cam->lookAt.y << " " << cam->lookAt.z << std::endl;
 
-		if (!glfwGetMouseButton(screen, GLFW_MOUSE_BUTTON_2))
+		//if (!glfwGetMouseButton(screen, GLFW_MOUSE_BUTTON_2))
+		if (!glfwGetKey(screen, unlockCamKey))
 		{
 			glfwSetInputMode(screen, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			firstFrame = true;
@@ -68,22 +79,22 @@ public:
 			//Keyboard movement
 			float speed = flySpeed; // glfwGetKey(screen, GLFW_KEY_LEFT_SHIFT) ? sprintMoveSpeed : flySpeed;
 			float moveDelta = speed * deltaTime;
-			if (glfwGetKey(screen, GLFW_KEY_W)) {
+			if (glfwGetKey(screen, forwardKey)) {
 				cam->position += forward * moveDelta;
 			}
-			if (glfwGetKey(screen, GLFW_KEY_S)) {
+			if (glfwGetKey(screen, backwardKey)) {
 				cam->position -= forward * moveDelta;
 			}
-			if (glfwGetKey(screen, GLFW_KEY_D)) {
+			if (glfwGetKey(screen, rightKey)) {
 				cam->position += right * moveDelta;
 			}
-			if (glfwGetKey(screen, GLFW_KEY_A)) {
+			if (glfwGetKey(screen, leftKey)) {
 				cam->position -= right * moveDelta;
 			}
-			if (glfwGetKey(screen, GLFW_KEY_E)) {
+			if (glfwGetKey(screen, upKey)) {
 				cam->position += up * moveDelta;
 			}
-			if (glfwGetKey(screen, GLFW_KEY_Q)) {
+			if (glfwGetKey(screen, downKey)) {
 				cam->position -= up * moveDelta;
 			}
 

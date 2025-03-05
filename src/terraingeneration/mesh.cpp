@@ -2,52 +2,66 @@
 #include "shaders/shader.hpp"
 #include "../libs/noise/FastNoiseLite.h"
 
-Mesh::Mesh(float width, float height, int subdivisions, NoiseData noiseData)
+Mesh::Mesh(NoiseData noiseData)
 {
-	GenerateMesh(width, height, subdivisions, noiseData);
+	GenerateMesh(noiseData);
 }
 
-void Mesh::GenerateMesh(float width, float height, int subdivisions, NoiseData data)
+void Mesh::GenerateMesh(NoiseData data)
 {
 	// cheating
-	width = 500;
-	height = 500;
-	subdivisions = 1024;
+	//width = 100;
+	//height = 100;
+	//subdivisions = 1024;
 	//
-
+	//float waveLegnth = width / data.frequency;
 	
 	vertices.clear();
 	indices.clear();
 
-	
+	std::cout << data.seed << std::endl;
 	FastNoiseLite noiseGenerator = FastNoiseLite(data.seed);
-	noiseGenerator.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+	noiseGenerator.SetNoiseType(static_cast<FastNoiseLite::NoiseType>(data.noiseType));
 	//noiseGenerator.SetFrequency(0.01);
-	noiseGenerator.SetFractalOctaves(2);
-	noiseGenerator.SetFractalType(FastNoiseLite::FractalType_Ridged);
+	
+	noiseGenerator.SetFractalType(static_cast<FastNoiseLite::FractalType>(data.fractalType));
+	noiseGenerator.SetFractalOctaves(data.fractalOctaves);
+	noiseGenerator.SetRotationType3D(FastNoiseLite::RotationType3D_None);
 	//noiseGenerator.SetDomainWarpAmp(8);
 
 	// verticies
-	int columns = subdivisions + 1;
-	for (size_t row = 0; row <= subdivisions; row++)
+	int columns = data.subdivisions + 1;
+	for (size_t row = 0; row <= data.subdivisions; row++)
 	{
-		for (size_t col = 0; col <= subdivisions; col++)
+		for (size_t col = 0; col <= data.subdivisions; col++)
 		{
 			Vertex v;
-			v.UV.x = ((float)col / subdivisions);
-			v.UV.y = ((float)row / subdivisions);
-			v.position.x = -width / 2 + width * v.UV.x;
-			v.position.y = noiseGenerator.GetNoise((float)row, (float)col) * 2;
-			v.position.z = height / 2 - height * v.UV.y;
+			v.UV.x = ((float)col / data.subdivisions);
+			v.UV.y = ((float)row / data.subdivisions);
+			v.position.x = -data.width / 2 + data.width * v.UV.x;
+			v.position.z = data.height / 2 - data.height * v.UV.y;
 			v.normal = glm::vec3(0, 1, 0);
+
+			// height map setup
+			float elevation = (1 * noiseGenerator.GetNoise(1 * (float)row * data.frequency, 1 * (float)col * data.frequency)
+				+ (0.5 * noiseGenerator.GetNoise(2 * (float)row * data.frequency, 2 * (float)col * data.frequency))
+				+ (0.25 * noiseGenerator.GetNoise(4 * (float)row * data.frequency, 4 * (float)col * data.frequency))) * data.amplitude;
+				;
+			elevation = elevation / (1 + 0.5 + 0.25);
+			elevation += 10;
+			if (elevation < data.lowestPoint)
+			{
+				elevation = data.lowestPoint;
+			}
+			v.position.y = pow(elevation, data.redistribution);
 			vertices.push_back(v);
 			//std::cout << v.position.x << " " << v.position.z << std::endl;
 		}
 	}
 	//INDICES
-	for (size_t row = 0; row < subdivisions; row++)
+	for (size_t row = 0; row < data.subdivisions; row++)
 	{
-		for (size_t col = 0; col < subdivisions; col++)
+		for (size_t col = 0; col < data.subdivisions; col++)
 		{
 			int start = row * columns + col;
 			indices.push_back(start);

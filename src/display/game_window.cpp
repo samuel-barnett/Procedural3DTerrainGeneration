@@ -105,18 +105,19 @@ void GameWindow::Render() {
 
     // set camera view in shader
     // testin .vs and .fs
+    // 
+    // set mat4s
     glUniformMatrix4fv(glGetUniformLocation(s.programID, "viewProjection"), 1, GL_FALSE, glm::value_ptr(cam.projectionMatrix() * cam.viewMatrix()));
     glUniformMatrix4fv(glGetUniformLocation(s.programID, "model"), 1, GL_FALSE, glm::value_ptr(terrainTrans.getModelMatrix()));
 
-    // imported shader
-    //glUniformMatrix4fv(glGetUniformLocation(s.programID, "_ViewProjection"), 1, GL_FALSE, glm::value_ptr(cam.projectionMatrix() * cam.viewMatrix()));
-    //glUniformMatrix4fv(glGetUniformLocation(s.programID, "_Model"), 1, GL_FALSE, glm::value_ptr(terrainTrans.getModelMatrix()));
+    // set vec3s
+    glUniform3f(glGetUniformLocation(s.programID, "_EyePos"), cam.position.x, cam.position.y, cam.position.z);
 
-
-
-
-    // Draw the square
-    //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    // set floats
+    glUniform1f(glGetUniformLocation(s.programID, "_Material.Ka"), 0.2);
+    glUniform1f(glGetUniformLocation(s.programID, "_Material.Kd"), 0.8);
+    glUniform1f(glGetUniformLocation(s.programID, "_Material.Ks"), 0.2);
+    glUniform1f(glGetUniformLocation(s.programID, "_Material.Shininess"), 0.8);
 
 
     terrainMesh.Draw();
@@ -124,26 +125,50 @@ void GameWindow::Render() {
     // Draw imgui
     //ImGui::ShowDemoWindow();
     {
-        ImGui::Begin("Hi");
-        ImGui::Text("Noise Generation Variables");
-        ImGui::InputInt("Seed", &noiseData.seed, -2147483647, 2147483647);
-        ImGui::InputInt("Width", &noiseData.width, 1, 10000);
-        ImGui::InputInt("Height", &noiseData.height, 1, 10000);
-        // regenerate Mesh Button
+        ImGui::Begin("Noise Generation Variables");
+        ImGui::Text("Hold E = Enable Camera Movement + Rotation");
+        ImGui::Text("WASD = Move, Space = Up, Shift = Down");
+        // seed
+        ImGui::InputInt("Seed", &noiseData.seed, -2147483646, 2147483646);
         if (ImGui::Button("Random Seed"))
         {
-            noiseData.seed = std::rand() % (2147483647 - 0);
+            noiseData.seed = std::rand();
         }
+        
+        const char* noiseTypes[] = { "OpenSimplex2", "OpenSimplex2S", "Cellular", "Perlin", "ValueCubic", "Value" };
+        //static int currNoise = noiseData.noiseType;
+        ImGui::ListBox("Noise Type", &noiseData.noiseType, noiseTypes, IM_ARRAYSIZE(noiseTypes), 4);
+
+        ImGui::SliderInt("Width", &noiseData.width, 1, 10000);
+        ImGui::SliderInt("Height", &noiseData.height, 1, 10000);
+        ImGui::SliderInt("Subdivisions", &noiseData.subdivisions, 1, 5000);
+
+
+        ImGui::SliderFloat("Frequency", &noiseData.frequency, 0, 10);
+        ImGui::SliderFloat("Amplitude", &noiseData.amplitude, 0, 10);
+        ImGui::SliderFloat("Redistribution", &noiseData.redistribution, 0, 10);
+        ImGui::SliderFloat("Lowest Point", &noiseData.lowestPoint, 0, 100);
+
+        
+        const char* fractalTypes[] = { "None", "FBm", "Ridged", "PingPong", "DomainWarpProgressive", "DomainWarpIndependent" };
+        //static int currFractal = noiseData.noiseType;
+        ImGui::ListBox("Fractal Type", &noiseData.fractalType, fractalTypes, IM_ARRAYSIZE(fractalTypes), 4);
+        ImGui::SliderInt("Fractal Octaves", &noiseData.fractalOctaves, 0, 8);
+
+
+        // regenerate Mesh Button
+        
 
         if (ImGui::Button("Regenerate Mesh"))
         {
-            terrainMesh.GenerateMesh(noiseData.width, noiseData.height, 512, noiseData);
+            terrainMesh.GenerateMesh(noiseData);
             std::cout << "Mesh Regenerated" << std::endl;
         }
        
 
         ImGui::End();
     }
+    
     ImGui::Render();
     
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
