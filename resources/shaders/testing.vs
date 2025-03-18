@@ -6,7 +6,7 @@ layout(location = 2) in vec2 aTextCoord;
 uniform mat4 model;
 uniform mat4 viewProjection;
 
-//out vec3 fragPosition;
+out vec3 fragPosition;
 
 out Surface
 {
@@ -22,7 +22,7 @@ void main()
 	vs_out.WorldNormal = transpose(inverse(mat3(model))) * aNormal;
 	vs_out.TexCoord = aTextCoord;
 
-    //fragPosition = aPos;
+    fragPosition = aPos;
 
     vec4 WorldPos = model * vec4(aPos, 1.0);
 

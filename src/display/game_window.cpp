@@ -159,7 +159,7 @@ void GameWindow::Render() {
 
 
         // regenerate Mesh Button
-        if (!noiseData.Compare(previousData))
+        //if (!noiseData.Compare(previousData))
         {
 
         }

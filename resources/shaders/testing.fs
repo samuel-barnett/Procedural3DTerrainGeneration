@@ -8,13 +8,12 @@ in Surface
     vec2 TexCoord;
 }fs_in;
 
-//in vec3 fragPosition;
+in vec3 fragPosition;
 
 uniform vec3 _EyePos;
 uniform vec3 _LightDirection = vec3(0.0,-1.0,0.0);
 uniform vec3 _LightColor = vec3(1.0);
 uniform vec3 _AmbientColor = vec3(0.3,0.4,0.46);
-
 
 struct Material{
     float Ka;
@@ -41,7 +40,7 @@ void main()
     FragColor = vec4(objectColor * lightColor, 1.0);
 
 
-
-
-    //FragColor = vec4(0.0, 0.55, 0.5, 1.0);
+    float heightColor = (cos(fs_in.WorldPos.y * 0.5) * 0.5); // + 0.25;
+    //FragColor = vec4((sin(fs_in.WorldPos.x * 50.0) / 2.0) + 0.5, 0.55, 0.5, 1.0);
+    FragColor = vec4(0, heightColor, heightColor, 1.0);
 };
