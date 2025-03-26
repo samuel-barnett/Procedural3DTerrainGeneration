@@ -110,16 +110,6 @@ void GameWindow::Render() {
     glUniformMatrix4fv(glGetUniformLocation(s.programID, "viewProjection"), 1, GL_FALSE, glm::value_ptr(cam.projectionMatrix() * cam.viewMatrix()));
     glUniformMatrix4fv(glGetUniformLocation(s.programID, "model"), 1, GL_FALSE, glm::value_ptr(terrainTrans.getModelMatrix()));
 
-    // set vec3s
-    glUniform3f(glGetUniformLocation(s.programID, "_EyePos"), cam.position.x, cam.position.y, cam.position.z);
-
-    // set floats
-    glUniform1f(glGetUniformLocation(s.programID, "_Material.Ka"), 0.2);
-    glUniform1f(glGetUniformLocation(s.programID, "_Material.Kd"), 0.8);
-    glUniform1f(glGetUniformLocation(s.programID, "_Material.Ks"), 0.2);
-    glUniform1f(glGetUniformLocation(s.programID, "_Material.Shininess"), 0.8);
-
-
     terrainMesh.Draw();
 
     // Draw imgui

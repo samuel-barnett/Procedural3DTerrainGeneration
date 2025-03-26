@@ -74,7 +74,7 @@ int BaseWindow::Run() {
 
 
     // toggle for wireframe view
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // Main game loop
     while (!glfwWindowShouldClose(windowHandle)) {
