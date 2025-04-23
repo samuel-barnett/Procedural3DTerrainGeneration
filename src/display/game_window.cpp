@@ -129,14 +129,14 @@ void GameWindow::Render() {
         //static int currNoise = noiseData.noiseType;
         ImGui::ListBox("Noise Type", &noiseData.noiseType, noiseTypes, IM_ARRAYSIZE(noiseTypes), 4);
 
-        ImGui::SliderInt("Width", &noiseData.width, 1, 10000);
+        ImGui::SliderInt("Width", &noiseData.width, 1, 1000);
         //ImGui::SliderInt("Height", &noiseData.height, 1, 10000);
-        ImGui::SliderInt("Subdivisions", &noiseData.subdivisions, 1, 5000);
+        ImGui::SliderInt("Subdivisions", &noiseData.subdivisions, 1, 1000);
 
 
         ImGui::SliderFloat("Frequency", &noiseData.frequency, 0, 10);
         ImGui::SliderFloat("Amplitude", &noiseData.amplitude, 0, 10);
-        ImGui::SliderFloat("Redistribution (WIP)", &noiseData.redistribution, 0, 10);
+        ImGui::SliderFloat("Redistribution (WIP)", &noiseData.redistribution, 0, 2);
         ImGui::SliderFloat("Lowest Point", &noiseData.lowestPoint, -100, 100);
         ImGui::SliderFloat("Highest Point", &noiseData.highestPoint, -100, 100);
         //ImGui::InputInt("Level Of Detail", &noiseData.levelOfDetail, 1, 10);
