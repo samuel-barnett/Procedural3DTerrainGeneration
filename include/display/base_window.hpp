@@ -32,6 +32,8 @@ class BaseWindow {
 
     NoiseData noiseData;
 
+    std::string fileLocation;
+
     public:
     BaseWindow();
     BaseWindow(int width, int height, std::string title);

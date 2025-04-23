@@ -15,7 +15,7 @@ void Mesh::GenerateMesh(NoiseData data)
 	//data.subdivisions = 1024;
 	//
 	//float waveLegnth = width / data.frequency;
-	
+	subdivisions = data.subdivisions;
 	vertices.clear();
 	indices.clear();
 
@@ -154,3 +154,4 @@ void Mesh::Draw()
 
 
 }
+

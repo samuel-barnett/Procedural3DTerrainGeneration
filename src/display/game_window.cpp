@@ -160,6 +160,20 @@ void GameWindow::Render() {
             std::cout << "Mesh Regenerated" << std::endl;
         }
        
+        /*
+        std::string buffer;
+        if (ImGui::InputText("File Output", &buffer, 50))
+        {
+            fileLocation = buffer;
+
+        }
+        */
+
+        if (ImGui::Button("Export to OBJ"))
+        {
+            terrainMesh.SaveToObj("mesh.obj");
+            std::cout << "saved to file" << std::endl;
+        }
 
         ImGui::End();
     }

@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <glm.hpp>
+#include <iostream>
+#include <fstream>
 #include <terrain_gen/perlin_generator.hpp>
 
 struct Vertex
@@ -20,6 +22,7 @@ class Mesh
 	unsigned int numVertices = 0;
 	unsigned int numIndices = 0;
 
+	int subdivisions;
 
 public:
 	std::vector<Vertex> vertices;
@@ -34,6 +37,48 @@ public:
 	glm::mat4 GetModelMatrix();
 
 	void Draw();
+
+	void SaveToObj(std::string filename)
+	{
+		std::ofstream output;
+		output.open(filename);
+
+		// verticies
+		for (int i = 0; i < vertices.size(); i++)
+		{
+			output << "v " << vertices[i].position.x << " " << vertices[i].position.y << " " << vertices[i].position.z << std::endl;
+		}
+
+		// uvs
+
+		// faces
+		/*
+		for (int i = 0; i < indices.size(); i += 3)
+		{
+			output << "f " << indices[i] << " " << indices[i]+1 << " " << indices[i+2] << std::endl;
+		}
+		*/
+		
+		
+		int columns = subdivisions + 1;
+		for (size_t row = 1; row < subdivisions; row++)
+		{
+			for (size_t col = 1; col < subdivisions; col++)
+			{
+				output << "f ";
+				int start = row * columns + col;
+				output << start << " ";
+				output << start + 1 << " ";
+				output << start + columns + 1 << std::endl << "f ";
+				output << start + columns + 1 << " ";
+				output << start + columns << " ";
+				output << start << std::endl;
+			}
+		}
+		
+
+		output.close();
+	}
 
 
 };
