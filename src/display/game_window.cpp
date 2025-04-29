@@ -119,46 +119,77 @@ void GameWindow::Render() {
         ImGui::Text("Hold E = Enable Camera Movement + Rotation");
         ImGui::Text("WASD = Move, Space = Up, Shift = Down");
         // seed
-        ImGui::InputInt("Seed", &noiseData.seed, -2147483646, 2147483646);
+        if (ImGui::InputInt("Seed", &noiseData.seed, -2147483646, 2147483646))
+        {
+            terrainMesh.GenerateMesh(noiseData);
+        }
+        
         if (ImGui::Button("Random Seed"))
         {
             noiseData.seed = std::rand();
+            terrainMesh.GenerateMesh(noiseData);
         }
         
         const char* noiseTypes[] = { "OpenSimplex2", "OpenSimplex2S", "Cellular", "Perlin", "ValueCubic", "Value" };
         //static int currNoise = noiseData.noiseType;
-        ImGui::ListBox("Noise Type", &noiseData.noiseType, noiseTypes, IM_ARRAYSIZE(noiseTypes), 4);
+        if (ImGui::ListBox("Noise Type", &noiseData.noiseType, noiseTypes, IM_ARRAYSIZE(noiseTypes), 4))
+        {
+            terrainMesh.GenerateMesh(noiseData);
+        }
 
-        ImGui::SliderInt("Width", &noiseData.width, 1, 1000);
+        if (ImGui::SliderInt("Width", &noiseData.width, 1, 1000))
+        {
+            terrainMesh.GenerateMesh(noiseData);
+        }
         //ImGui::SliderInt("Height", &noiseData.height, 1, 10000);
-        ImGui::SliderInt("Subdivisions", &noiseData.subdivisions, 1, 1000);
+        if (ImGui::SliderInt("Subdivisions", &noiseData.subdivisions, 1, 500))
+        {
+            terrainMesh.GenerateMesh(noiseData);
+        }
 
+        if (ImGui::SliderFloat("Frequency", &noiseData.frequency, 0, 10))
+        {
+            terrainMesh.GenerateMesh(noiseData);
+        }
+        if (ImGui::SliderFloat("Amplitude", &noiseData.amplitude, 0, 10))
+        {
+            terrainMesh.GenerateMesh(noiseData);
+        }
+        if (ImGui::SliderFloat("Redistribution (WIP)", &noiseData.redistribution, 0, 10))
+        {
+            terrainMesh.GenerateMesh(noiseData);
+        }
+        if (ImGui::SliderFloat("Lowest Point", &noiseData.lowestPoint, -20, 20))
+        {
+            terrainMesh.GenerateMesh(noiseData);
+        }
+        if (ImGui::SliderFloat("Highest Point", &noiseData.highestPoint, -20, 20))
+        {
+            terrainMesh.GenerateMesh(noiseData);
+        }
 
-        ImGui::SliderFloat("Frequency", &noiseData.frequency, 0, 10);
-        ImGui::SliderFloat("Amplitude", &noiseData.amplitude, 0, 10);
-        ImGui::SliderFloat("Redistribution (WIP)", &noiseData.redistribution, 0, 2);
-        ImGui::SliderFloat("Lowest Point", &noiseData.lowestPoint, -100, 100);
-        ImGui::SliderFloat("Highest Point", &noiseData.highestPoint, -100, 100);
         //ImGui::InputInt("Level Of Detail", &noiseData.levelOfDetail, 1, 10);
 
         
         const char* fractalTypes[] = { "None", "FBm", "Ridged", "PingPong", "DomainWarpProgressive (WIP)", "DomainWarpIndependent (WIP)" };
         //static int currFractal = noiseData.noiseType;
-        ImGui::ListBox("Fractal Type", &noiseData.fractalType, fractalTypes, IM_ARRAYSIZE(fractalTypes), 4);
-        ImGui::SliderInt("Fractal Octaves", &noiseData.fractalOctaves, 0, 8);
-
-
-        // regenerate Mesh Button
-        //if (!noiseData.Compare(previousData))
+        if (ImGui::ListBox("Fractal Type", &noiseData.fractalType, fractalTypes, IM_ARRAYSIZE(fractalTypes), 4))
         {
-
+            terrainMesh.GenerateMesh(noiseData);
+        }
+        if (ImGui::SliderInt("Fractal Octaves", &noiseData.fractalOctaves, 0, 8))
+        {
+            terrainMesh.GenerateMesh(noiseData);
         }
 
+        // regenerate Mesh Button
+        /*
         if (ImGui::Button("Regenerate Mesh"))
         {
             terrainMesh.GenerateMesh(noiseData);
             std::cout << "Mesh Regenerated" << std::endl;
         }
+        */
        
         /*
         std::string buffer;

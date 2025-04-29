@@ -5,7 +5,7 @@ struct NoiseData
 {
 	int seed = 0;
 	int width = 250;
-	int subdivisions = 1024;
+	int subdivisions = 150;
 	float amplitude = 1.5;
 	float frequency = 1.15;
 	float redistribution = 1.5;
