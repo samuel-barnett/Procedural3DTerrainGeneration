@@ -3,6 +3,8 @@
 #include <iostream>
 #include <glm.hpp>
 #include <gtc/type_ptr.inl>
+#include <string>
+
 
 // Template stuff
 Shader s;
@@ -110,14 +112,33 @@ void GameWindow::Render() {
     glUniformMatrix4fv(glGetUniformLocation(s.programID, "viewProjection"), 1, GL_FALSE, glm::value_ptr(cam.projectionMatrix() * cam.viewMatrix()));
     glUniformMatrix4fv(glGetUniformLocation(s.programID, "model"), 1, GL_FALSE, glm::value_ptr(terrainTrans.getModelMatrix()));
 
+
+    // set lowest and highest
+    glUniform1f(glGetUniformLocation(s.programID, "lowest"), noiseData.lowestCurr);
+    glUniform1f(glGetUniformLocation(s.programID, "highest"), noiseData.highestCurr);
+
+
     terrainMesh.Draw();
 
     // Draw imgui
     //ImGui::ShowDemoWindow();
     {
         ImGui::Begin("Noise Generation Variables");
-        ImGui::Text("Hold E = Enable Camera Movement + Rotation");
+        ImGui::Text("Hold Left Click = Enable Camera Movement + Rotation");
         ImGui::Text("WASD = Move, Space = Up, Shift = Down");
+
+        // render methods
+        /*
+        if (ImGui::Button("Solid View"))
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_TRIANGLES);
+        }
+        if (ImGui::Button("Wireframe View"))
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }
+        */
+
         // seed
         if (ImGui::InputInt("Seed", &noiseData.seed, -2147483646, 2147483646))
         {
@@ -140,6 +161,7 @@ void GameWindow::Render() {
         if (ImGui::SliderInt("Width", &noiseData.width, 1, 1000))
         {
             terrainMesh.GenerateMesh(noiseData);
+            camController.flySpeed = noiseData.width * 0.18;
         }
         //ImGui::SliderInt("Height", &noiseData.height, 1, 10000);
         if (ImGui::SliderInt("Subdivisions", &noiseData.subdivisions, 1, 500))
@@ -151,14 +173,16 @@ void GameWindow::Render() {
         {
             terrainMesh.GenerateMesh(noiseData);
         }
-        if (ImGui::SliderFloat("Amplitude", &noiseData.amplitude, 0, 10))
+        if (ImGui::SliderFloat("Amplitude", &noiseData.amplitude, 0, 50))
         {
             terrainMesh.GenerateMesh(noiseData);
         }
+        /*
         if (ImGui::SliderFloat("Redistribution (WIP)", &noiseData.redistribution, 0, 10))
         {
             terrainMesh.GenerateMesh(noiseData);
         }
+        */
         if (ImGui::SliderFloat("Lowest Point", &noiseData.lowestPoint, -20, 20))
         {
             terrainMesh.GenerateMesh(noiseData);
@@ -167,11 +191,17 @@ void GameWindow::Render() {
         {
             terrainMesh.GenerateMesh(noiseData);
         }
+        /*
+        if (ImGui::SliderFloat("Domain Warp", &noiseData.domainWarp, -20, 20))
+        {
+            terrainMesh.GenerateMesh(noiseData);
+        }
+        */
 
         //ImGui::InputInt("Level Of Detail", &noiseData.levelOfDetail, 1, 10);
 
         
-        const char* fractalTypes[] = { "None", "FBm", "Ridged", "PingPong", "DomainWarpProgressive (WIP)", "DomainWarpIndependent (WIP)" };
+        const char* fractalTypes[] = { "None", "FBm", "Ridged", "PingPong"};
         //static int currFractal = noiseData.noiseType;
         if (ImGui::ListBox("Fractal Type", &noiseData.fractalType, fractalTypes, IM_ARRAYSIZE(fractalTypes), 4))
         {
@@ -199,10 +229,16 @@ void GameWindow::Render() {
 
         }
         */
+        
+        if (ImGui::InputText("Filename(Do Not Include File Extension)", fileNameBuffer, IM_ARRAYSIZE(fileNameBuffer)))
+        {
+            meshFileName = fileNameBuffer;
+        }
+        
 
         if (ImGui::Button("Export to OBJ"))
         {
-            terrainMesh.SaveToObj("mesh.obj");
+            terrainMesh.SaveToObj(meshFileName + ".obj");
             std::cout << "saved to file" << std::endl;
         }
 

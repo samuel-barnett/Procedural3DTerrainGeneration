@@ -32,7 +32,8 @@ class BaseWindow {
 
     NoiseData noiseData;
 
-    std::string fileLocation;
+    char fileNameBuffer[64] = "mesh";
+    std::string meshFileName = "mesh";
 
     public:
     BaseWindow();

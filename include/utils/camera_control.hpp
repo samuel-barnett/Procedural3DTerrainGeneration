@@ -20,15 +20,15 @@ public:
 		rightKey = GLFW_KEY_D;
 	int upKey = GLFW_KEY_SPACE,
 		downKey = GLFW_KEY_LEFT_SHIFT;
-	int unlockCamKey = GLFW_KEY_E;
+	int unlockCamKey = GLFW_MOUSE_BUTTON_1;
 
 
 	void moveCamera(GLFWwindow* screen, float deltaTime, Camera* cam)
 	{
 		//std::cout << cam->lookAt.x << " " << cam->lookAt.y << " " << cam->lookAt.z << std::endl;
 
-		//if (!glfwGetMouseButton(screen, GLFW_MOUSE_BUTTON_2))
-		if (!glfwGetKey(screen, unlockCamKey))
+		if (!glfwGetMouseButton(screen, GLFW_MOUSE_BUTTON_2))
+		//if (!glfwGetKey(screen, unlockCamKey))
 		{
 			glfwSetInputMode(screen, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			firstFrame = true;

@@ -11,10 +11,13 @@ struct NoiseData
 	float redistribution = 1.5;
 	float lowestPoint = -0.5;
 	float highestPoint = 20;
+	float domainWarp = 8;
 	int noiseType = FastNoiseLite::NoiseType::NoiseType_OpenSimplex2;
 	int fractalType = FastNoiseLite::FractalType::FractalType_None;
 	int fractalOctaves = 1;
 	int levelOfDetail = 1;
+
+	float lowestCurr = 1000000, highestCurr = -1000000;
 
 	bool Compare(NoiseData other)
 	{

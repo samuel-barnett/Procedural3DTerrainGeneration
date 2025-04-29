@@ -7,46 +7,32 @@ Mesh::Mesh(NoiseData noiseData)
 	GenerateMesh(noiseData);
 }
 
-void Mesh::GenerateMesh(NoiseData data)
+void Mesh::GenerateMesh(NoiseData& data)
 {
-	// cheating
-	//width = 100;
-	//height = 100;
-	//data.subdivisions = 1024;
-	//
-	//float waveLegnth = width / data.frequency;
+	// reset lowest highest
+	data.lowestCurr = 1000000;
+	data.highestCurr = -1000000;
+
 	subdivisions = data.subdivisions;
 	vertices.clear();
 	indices.clear();
 
-	std::cout << data.seed << std::endl;
+	//std::cout << data.seed << std::endl;
 	FastNoiseLite noiseGenerator = FastNoiseLite(data.seed);
 	noiseGenerator.SetNoiseType(static_cast<FastNoiseLite::NoiseType>(data.noiseType));
-	//noiseGenerator.SetFrequency(0.01);
+	//noiseGenerator.SetFrequency(data.frequency);
 	
 	noiseGenerator.SetFractalType(static_cast<FastNoiseLite::FractalType>(data.fractalType));
 	noiseGenerator.SetFractalOctaves(data.fractalOctaves);
 	//noiseGenerator.SetRotationType3D(FastNoiseLite::RotationType3D_None);
-	//noiseGenerator.SetDomainWarpAmp(8);
+	//noiseGenerator.SetDomainWarpAmp(data.domainWarp);
 
 	// verticies
 	int columns = data.subdivisions + 1;
 	for (size_t row = 0; row <= data.subdivisions; row++)
 	{
-		/*
-		if (!(row % data.levelOfDetail == 0))
-		{
-			continue;
-		}*/
-
 		for (size_t col = 0; col <= data.subdivisions; col++)
 		{
-			/*
-			if (!(col % data.levelOfDetail == 0))
-			{
-				continue;
-			}*/
-
 			Vertex v;
 			v.UV.x = ((float)col / data.subdivisions);
 			v.UV.y = ((float)row / data.subdivisions);
@@ -69,15 +55,20 @@ void Mesh::GenerateMesh(NoiseData data)
 			{
 				elevation = data.highestPoint;
 			}
+			/*
 			elevation += 10;
 			elevation = pow(elevation, data.redistribution);
 			elevation -= 10;
+			*/
+			if (elevation < data.lowestCurr) {data.lowestCurr = elevation; }
+			if (elevation > data.highestCurr) { data.highestCurr = elevation; }
+
 			v.position.y = elevation;
 			vertices.push_back(v);
 			//std::cout << v.position.x << " " << v.position.z << std::endl;
 		}
 	}
-	std::cout << "# of vertexes: " << vertices.size() << std::endl;
+	//std::cout << "# of vertexes: " << vertices.size() << std::endl;
 	//INDICES
 	for (size_t row = 0; row < data.subdivisions; row++)
 	{

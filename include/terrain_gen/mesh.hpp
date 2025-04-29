@@ -31,7 +31,7 @@ public:
 	Mesh() {};
 	Mesh(NoiseData noiseData);
 
-	void GenerateMesh(NoiseData data);
+	void GenerateMesh(NoiseData& data);
 	void LoadMesh();
 
 	glm::mat4 GetModelMatrix();
@@ -48,8 +48,6 @@ public:
 		{
 			output << "v " << vertices[i].position.x << " " << vertices[i].position.y << " " << vertices[i].position.z << std::endl;
 		}
-
-		// uvs
 
 		// faces
 		/*

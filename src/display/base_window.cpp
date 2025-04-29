@@ -49,7 +49,7 @@ int BaseWindow::Run() {
     cam.FOV = 60.0f;
 
     // camera controller
-    camController.flySpeed = 20;
+    camController.flySpeed = 250 * 0.18;
     camController.sensitivity = 0.05f;
 
     camController.forwardKey = GLFW_KEY_W;
@@ -67,16 +67,15 @@ int BaseWindow::Run() {
     terrainTrans.position = glm::vec3(1.0f, 0.0f, 0.0f);
     terrainTrans.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
     terrainTrans.scale = glm::vec3(1.0f, 1.0f, 1.0f);
-
-
-    NoiseData noiseData;
-    NoiseData previousData;
-
+    
 
     // toggle for wireframe view
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     // Main game loop
+    terrainMesh.GenerateMesh(noiseData);
     while (!glfwWindowShouldClose(windowHandle)) {
         Update();
         
