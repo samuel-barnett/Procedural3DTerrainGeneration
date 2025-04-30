@@ -124,7 +124,7 @@ void GameWindow::Render() {
     //ImGui::ShowDemoWindow();
     {
         ImGui::Begin("Noise Generation Variables");
-        ImGui::Text("Hold Left Click = Enable Camera Movement + Rotation");
+        ImGui::Text("Hold Right Click = Enable Camera Movement + Rotation");
         ImGui::Text("WASD = Move, Space = Up, Shift = Down");
 
         // render methods
@@ -183,11 +183,11 @@ void GameWindow::Render() {
             terrainMesh.GenerateMesh(noiseData);
         }
         */
-        if (ImGui::SliderFloat("Lowest Point", &noiseData.lowestPoint, -20, 20))
+        if (ImGui::SliderFloat("Lowest Point", &noiseData.lowestPoint, -50, 50))
         {
             terrainMesh.GenerateMesh(noiseData);
         }
-        if (ImGui::SliderFloat("Highest Point", &noiseData.highestPoint, -20, 20))
+        if (ImGui::SliderFloat("Highest Point", &noiseData.highestPoint, -50, 50))
         {
             terrainMesh.GenerateMesh(noiseData);
         }
